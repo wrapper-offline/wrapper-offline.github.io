@@ -16,6 +16,7 @@ html, body {
 body {
 	display: flex; 
 	flex-direction: column; 
+	padding-bottom: 4000px;
 }
 main { padding: 20px 40px; height: 100%; text-align: center; }
 
@@ -25,6 +26,10 @@ main { padding: 20px 40px; height: 100%; text-align: center; }
 
 .shorthr {
 	width: 40%;
+}
+.shorterhr {
+	border: solid 1px #666;
+	width: 20%;
 }
 
 /**
@@ -179,30 +184,30 @@ font importing
 @font-face {
 	font-family: 'Sailec';
 	font-weight: 100;
-	src: url('./fonts/Sailec-Thin.woff') format('woff');
+	src: url('/assets/fonts/Sailec-Thin.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'Sailec';
 	font-weight: 200;
-	src: url('./fonts/Sailec-Light.woff') format('woff');
+	src: url('/assets/fonts/Sailec-Light.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'Sailec';
 	font-weight: 400;
-	src: url('./fonts/Sailec-Regular.woff') format('woff');
+	src: url('/assets/fonts/Sailec-Regular.woff') format('woff');
 }
 
 @font-face {
 	font-family: 'Sailec';
 	font-weight: 500;
-	src: url('./fonts/Sailec-Medium.woff') format('woff');
+	src: url('/assets/fonts/Sailec-Medium.woff') format('woff');
 }
 
 /* font weight 500 and font weight 700 (bold) are the same for better integration support */
 @font-face {
 	font-family: 'Sailec';
 	font-weight: 700;
-	src: url('../fonts/Sailec-Medium.woff') format('woff');
+	src: url('/assets/fonts/Sailec-Medium.woff') format('woff');
 }
