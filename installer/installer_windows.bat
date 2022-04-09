@@ -40,6 +40,7 @@ echo:
 set DEPENDENCIES_NEEDED=n
 set GIT_DETECTED=n
 set NODE_DETECTED=n
+set HTTPSERVER_DETECTED=n
 set FLASH_DETECTED=n
 
 :: Git check
@@ -53,7 +54,6 @@ IF "!goutput!" EQU "" (
 	echo:
 	set GIT_DETECTED=y
 )
-popd
 
 :: Node.JS check
 echo Checking for Node.JS installation...
@@ -66,7 +66,6 @@ IF "!noutput!" EQU "" (
 	echo:
 	set NODE_DETECTED=y
 )
-popd
 
 :: Flash check
 echo Checking for Flash installation...
@@ -81,9 +80,9 @@ if !FLASH_DETECTED!==n (
 	echo:
 )
 
-:::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::
 :: Dependency Install ::
-:::::::::::::::::::::::::::::::::::
+::::::::::::::::::::::::
 
 if !DEPENDENCIES_NEEDED!==y (
 	title Wrapper: Offline Installer [Installing Dependencies...]
@@ -102,9 +101,7 @@ if !DEPENDENCIES_NEEDED!==y (
 )
 
 if !GIT_DETECTED!==n (
-	:: Install Git
-	title Wrapper: Offline Installer [Installing Git...]
-	echo:
+	cls
 	echo Installing Git...
 	echo:
 	if not exist "git_installer.exe" (
@@ -123,6 +120,7 @@ if !GIT_DETECTED!==n (
 )
 
 if !NODE_DETECTED!==n (	
+	cls
 	echo Installing Node.js...
 	echo:
 	:: Install Node.js
@@ -178,6 +176,24 @@ if !NODE_DETECTED!==n (
 )
 
 :after_nodejs_install
+
+:: HTTP-Server check (don't ask why it's here)
+echo Checking for http-server installation...
+npm list -g | findstr "http-server" >nul
+if !errorlevel! == 0 (
+	echo HTTP-Server is installed.
+	echo:
+	set HTTPSERVER_DETECTED=y
+) else (
+	echo HTTP-Server could not be found.
+	echo:
+)
+
+if !HTTPSERVER_DETECTED!==n (	
+	cls
+	echo Installing HTTP-Server...
+	call npm install http-server -g
+)
 
 :: Flash Player
 if !FLASH_DETECTED!==n (
@@ -248,32 +264,41 @@ echo Time to choose. && goto wrapperidle
 
 :downloadmain
 cls
-echo Cloning repository from GitHub...
-git clone https://github.com/Wrapper-Offline/Wrapper-Offline.git
+if not exist "Wrapper-Offline" (
+	echo Cloning repository from GitHub...
+	git clone https://github.com/Wrapper-Offline/Wrapper-Offline.git
+) else (
+	echo You already have it installed apparently?
+	echo If you're trying to install a different version make sure you remove the old folder.
+	pause
+)
 goto npminstall
 
 :downloadbeta
 cls
-echo Cloning repository from GitHub...
-git clone --single-branch --branch beta https://github.com/Wrapper-Offline/Wrapper-Offline.git
+if not exist "Wrapper-Offline" (
+	echo Cloning repository from GitHub...
+	git clone --single-branch --branch beta https://github.com/Wrapper-Offline/Wrapper-Offline.git
+) else (
+	echo You already have it installed apparently?
+	echo If you're trying to install a different version make sure you remove the old folder.
+	pause
+)
 goto npminstall
 
 :npminstall
 cls
 pushd Wrapper-Offline\wrapper
-echo Installing Node packages...
-call npm install
+if not exist "package-lock.json" (
+	echo Installing Node.JS packages...
+	call npm install
+) else (
+	echo Node.JS packages already installed.
+)
 popd
-
-:httpserverinstall
-cls
-echo Installing HTTP-Server...
-:: get
-call npm install http-server -g && goto certinstall
 
 :certinstall
 cls
-pushd "%~dp0"
 pushd Wrapper-Offline\server
 echo Installing HTTPS certificate...
 echo:
@@ -286,13 +311,30 @@ if not exist "the.crt" (
 	exit
 )
 call certutil -addstore -f -enterprise -user root the.crt >nul
-pushd "%~dp0..\"
+popd
 
 :finish
 cls
-echo Wrapper: Offline has been installed^^! Feel free to move it wherever you want.
-start "" "%~dp0"
+echo:
+echo Wrapper: Offline has been installed^^! Would you like to start it now?
+echo:
+echo Enter 1 to open Wrapper: Offline now.
+echo Enter 0 to just open the folder.
+:finalidle
+echo:
+
+set /p CHOICE=Choice:
+if "!choice!"=="0" goto folder
+if "!choice!"=="1" goto start
+echo Time to choose. && goto finalidle
+
+:folder
+start "" "Wrapper-Offline"
 pause & exit
+
+:start
+pushd Wrapper-Offline
+start start_wrapper.bat
 
 :exit
 pause & exit
