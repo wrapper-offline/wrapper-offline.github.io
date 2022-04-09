@@ -110,7 +110,7 @@ if !GIT_DETECTED!==n (
 	echo Proper Git installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes,
 	echo and the W:O installer will continue once it closes.
-	git_installer.exe
+	call git_installer.exe
 	goto git_installed
 	
 	:git_installed
@@ -154,7 +154,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_64.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x64.msi -OutFile node_installer_64.msi"
 	)
-	msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
+	call msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
 	del node_installer_64.msi
@@ -164,7 +164,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_32.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x86.msi -OutFile node_installer_32.msi"
 	)
-	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
+	call msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
 	del node_installer_32.msi
