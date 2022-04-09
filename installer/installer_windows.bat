@@ -110,13 +110,12 @@ if !GIT_DETECTED!==n (
 	echo Proper Git installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes,
 	echo and the W:O installer will continue once it closes.
-	call git_installer.exe
+	git_installer.exe
 	goto git_installed
 	
 	:git_installed
 	del git_installer.exe
 	echo Git has been installed.
-	set GIT_DETECTED=y
 )
 
 if !NODE_DETECTED!==n (	
@@ -154,9 +153,9 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_64.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x64.msi -OutFile node_installer_64.msi"
 	)
-	call msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
+	msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
 	del node_installer_64.msi
 	goto nodejs_installed
 
@@ -164,36 +163,17 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_32.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x86.msi -OutFile node_installer_32.msi"
 	)
-	call msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
+	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
 	del node_installer_32.msi
 	goto nodejs_installed
 
 	:nodejs_installed
 	echo Node.js has been installed.
-	set NODEJS_DETECTED=y
 )
 
 :after_nodejs_install
-
-:: HTTP-Server check (don't ask why it's here)
-echo Checking for http-server installation...
-npm list -g | findstr "http-server" >nul
-if !errorlevel! == 0 (
-	echo HTTP-Server is installed.
-	echo:
-	set HTTPSERVER_DETECTED=y
-) else (
-	echo HTTP-Server could not be found.
-	echo:
-)
-
-if !HTTPSERVER_DETECTED!==n (	
-	cls
-	echo Installing HTTP-Server...
-	call npm install http-server -g
-)
 
 :: Flash Player
 if !FLASH_DETECTED!==n (
@@ -220,6 +200,7 @@ if !FLASH_DETECTED!==n (
 		)
 	)
 	:lurebrowserslayer
+	cls
 	echo:
 	echo Starting Flash installer...
 	if not exist "flash_windows_chromium.msi" (
@@ -230,6 +211,12 @@ if !FLASH_DETECTED!==n (
 	echo Flash has been installed.
 	del flash_windows_chromium.msi	
 	echo:
+)
+
+if !DEPENDENCIES_NEEDED!==y (
+	echo Dependencies installed. 
+	start installer_windows.bat
+	exit
 )
 
 :::::::::::::::::::::::::
@@ -296,6 +283,16 @@ if not exist "package-lock.json" (
 	echo Node.JS packages already installed.
 )
 popd
+
+:httpserverinstall
+cls
+npm list -g | findstr "http-server" >nul
+if !errorlevel! == 0 (
+	echo HTTP-Server already installed.
+) else (
+	echo Installing HTTP-Server...
+	call npm install http-server -g
+)
 
 :certinstall
 cls
