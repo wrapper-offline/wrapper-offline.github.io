@@ -13,14 +13,9 @@ title Wrapper: Offline Installer [Initializing...]
 :: Lets variables work or something idk im not a nerd
 SETLOCAL ENABLEDELAYEDEXPANSION
 
-::check for admin 
-fsutil dirty query !systemdrive! >NUL 2>&1
-if /i not !ERRORLEVEL!==0 (
-	echo You need to run this file with admin privelages.
-	echo Right click on this file, and click "Run as Administrator".
-	echo If you don't have this option, your current user account does not have admin privileges.
-	pause
-	exit
+::check for admin
+set "params=%*"
+cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 )
 
 :: Make sure we're starting in the correct folder
@@ -151,7 +146,7 @@ if !NODE_DETECTED!==n (
 
 	:installnode64
 	if not exist "node_installer_64.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x64.msi -OutFile node_installer_64.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v12.18.1/node-v12.18.1-x64.msi -OutFile node_installer_64.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
@@ -161,7 +156,7 @@ if !NODE_DETECTED!==n (
 
 	:installnode32
 	if not exist "node_installer_32.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v17.8.0/node-v17.8.0-x86.msi -OutFile node_installer_32.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v12.18.1/node-v12.18.1-x86.msi -OutFile node_installer_32.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
@@ -229,10 +224,11 @@ cls
 
 echo:
 echo Wrapper: Offline Installer
-echo A project from VisualPlugin adapted by the Wrapper: Offline team
+echo A project from VisualPlugin adapted by GoTest334 and the Wrapper: Offline team
 echo:
-echo Enter 1 to install from the main branch
+echo Enter 1 to install from the main branch (Recommended)
 echo Enter 2 to install from the beta branch
+echo Beta Version Status: Not Working
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
