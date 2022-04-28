@@ -228,7 +228,7 @@ echo A project from VisualPlugin adapted by GoTest334 and the Wrapper: Offline t
 echo:
 echo Enter 1 to install from the main branch (Recommended)
 echo Enter 2 to install from the beta branch
-echo Beta Version Status: Not Working
+echo Beta Version Status: NOT WORKING
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
