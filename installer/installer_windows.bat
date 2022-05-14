@@ -111,6 +111,7 @@ if !GIT_DETECTED!==n (
 	:git_installed
 	del git_installer.exe
 	echo Git has been installed.
+	set GIT_DETECTED=y
 )
 
 if !NODE_DETECTED!==n (	
@@ -161,11 +162,14 @@ if !NODE_DETECTED!==n (
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
 	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
+	
 	del node_installer_32.msi
 	goto nodejs_installed
 
 	:nodejs_installed
 	echo Node.js has been installed.
+	set NODE_DETECTED=y
+	set DEPENDENCIES_NEEDED=n
 )
 
 :after_nodejs_install
@@ -185,7 +189,7 @@ if !FLASH_DETECTED!==n (
 
 	:: Summon the Browser Slayer
 	echo Rip and tear, until it is done.
-	for %%i in (firefox,palemoon,iexplore,microsoftedge,chrome,chrome64,opera,brave) do (
+	for %%i in (firefox,palemoon,iexplore,microsoftedge,msedge,chrome,chrome64,opera,brave) do (
 		if !VERBOSEWRAPPER!==y (
 			 taskkill /f /im %%i.exe /t
 			 wmic process where name="%%i.exe" call terminate
@@ -205,6 +209,8 @@ if !FLASH_DETECTED!==n (
 
 	echo Flash has been installed.
 	del flash_windows_chromium.msi	
+	set FLASH_DETECTED=y
+	
 	echo:
 )
 
@@ -226,9 +232,9 @@ echo:
 echo Wrapper: Offline Installer
 echo A project from VisualPlugin adapted by GoTest334 and the Wrapper: Offline team
 echo:
-echo Enter 1 to install from the main branch (Recommended)
-echo Enter 2 to install from the beta branch
-echo Beta Version Status: NOT WORKING
+echo Enter 1 to install Wrapper: Offline 1.2.3 (Stable Release)
+echo Enter 2 to install Wrapper: Offline 1.3.0 (Beta Release)
+echo Beta Version is Not Reccomended
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
