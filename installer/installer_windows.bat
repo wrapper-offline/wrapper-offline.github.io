@@ -234,7 +234,7 @@ echo A project from VisualPlugin adapted by GoTest334 and the Wrapper: Offline t
 echo:
 echo Enter 1 to install Wrapper: Offline 1.2.3 (Stable Release)
 echo Enter 2 to install Wrapper: Offline 1.3.0 (Beta Release)
-echo Beta Version is Not Reccomended
+echo Beta Version is unstable and is not recommended.
 echo Enter 0 to close the installer
 :wrapperidle
 echo:
