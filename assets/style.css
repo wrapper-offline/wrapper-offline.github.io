@@ -6,7 +6,6 @@ this css has the general header/footer layout stuff
 general
 **/
 html, body {
-  
 	background: #222;
 	color: #eee;
 	font: 16px/1.5 'Sailec', Arial, sans-serif;
@@ -20,7 +19,7 @@ body {
 body.faq {
 	padding-bottom: 4000px;
 }
-main { padding: 20px 40px; height: 100%; text-align: center; }
+main { padding: 20px 40px; height: 100% }
 
 .none {
 	display: none;
