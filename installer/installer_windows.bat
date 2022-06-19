@@ -1,42 +1,89 @@
+title Wrapper: Offline Installer
 :: Wrapper: Offline Installer
 :: Author: octanuary#6553 & sparrkz#0001
 :: License: MIT
-title Wrapper: Offline Installer [Initializing...]
 
-::::::::::::::::::::
-:: Initialization ::
-::::::::::::::::::::
-
-:: Stop commands from spamming stuff, cleans up the screen
+:: Initialize (stop command spam, clean screen, make variables work, set to UTF-8)
 @echo off && cls
-
-:: Lets variables work or something idk im not a nerd
 SETLOCAL ENABLEDELAYEDEXPANSION
+chcp 65001 >nul
 
-::check for admin
+:: Move to base folder, and make sure it worked (otherwise things would go horribly wrong)
+pushd "%~dp0"
+if !errorlevel! NEQ 0 echo something happened idk && pause && exit
+pushd "%~dp0"
+
+:: check for admin
 set "params=%*"
 cd /d "%~dp0" && ( if exist "%temp%\getadmin.vbs" del "%temp%\getadmin.vbs" ) && fsutil dirty query %systemdrive% 1>nul 2>nul || (  echo Set UAC = CreateObject^("Shell.Application"^) : UAC.ShellExecute "cmd.exe", "/k cd ""%~sdp0"" && %~s0 %params%", "", "runas", 1 >> "%temp%\getadmin.vbs" && "%temp%\getadmin.vbs" && exit /B )
 )
 
-:: Make sure we're starting in the correct folder
-pushd "%~dp0"
-:: Check *again* because it seems like sometimes it doesn't go into dp0 the first time???
-pushd "%~dp0"
+:: Prevents CTRL+C cancelling and keeps window open when crashing
+if "!SUBSCRIPT!"=="" (
+	if "%~1" equ "point_insertion" goto point_insertion
+	start "" /wait /B "%~F0" point_insertion
+	exit
+)
+:point_insertion
 
-::::::::::::::::::::::
-:: Dependency Check ::
-::::::::::::::::::::::
-
-title Wrapper: Offline Installer [Checking for dependencies...]
-echo Checking for dependencies...
-echo:
-
-:: Preload variables
+:: Predefine variables
 set DEPENDENCIES_NEEDED=n
 set GIT_DETECTED=n
 set NODE_DETECTED=n
 set HTTPSERVER_DETECTED=n
 set FLASH_DETECTED=n
+set IS_BETA=n
+set NODE_VER=v12.18.1
+
+:: Confirmation
+:confirmask
+echo Wrapper: Offline
+echo Are you sure you want to install Wrapper: Offline?
+echo:
+echo Type y to install Offline, or type n to close
+echo this script.
+echo:
+:confirmaskretry
+set /p CHOICE= Choice:
+echo:
+if "!choice!"=="n" exit
+if "!choice!"=="y" goto dependency_check
+echo Time to choose. && goto confirmaskretry
+cls
+
+:: Ask for the version
+:versionask
+echo Wrapper: Offline
+echo Are you sure you want to install Wrapper: Offline?
+echo:
+echo Enter 1 to install v1.2.3. (stable)
+echo Enter 2 to install v1.3.0. (beta)
+echo Enter 0 to cancel the installation.
+echo:
+:versionaskretry
+set /p CHOICE= Choice:
+echo:
+if "!choice!"=="0" exit
+if "!choice!"=="1" goto installdepsorinstallwo
+if "!choice!"=="2" set IS_BETA=y && goto installdepsorinstallwo
+echo Time to choose. && goto versionaskretry
+cls
+
+:installdepsorinstallwo
+if !DEPENDENCIES_NEEDED!==n (
+	if "!choice!"=="1" ( goto downloadmain )
+	if "!choice!"=="2" ( goto downloadbeta )
+)
+
+
+::::::::::::::::::::::
+:: Dependency Check ::
+::::::::::::::::::::::
+
+:dependency_check
+title Wrapper: Offline Installer [Checking for dependencies...]
+echo Checking for dependencies...
+echo:
 
 :: Git check
 echo Checking for Git installation...
@@ -118,6 +165,7 @@ if !NODE_DETECTED!==n (
 	cls
 	echo Installing Node.js...
 	echo:
+	if %IS_BETA%==y set NODE_VER=v18.4.0
 	:: Install Node.js
 	if !CPU_ARCHITECTURE!==64 (
 		if !VERBOSEWRAPPER!==y ( echo 64-bit system detected, installing 64-bit Node.js. )
@@ -147,7 +195,7 @@ if !NODE_DETECTED!==n (
 
 	:installnode64
 	if not exist "node_installer_64.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v12.18.1/node-v12.18.1-x64.msi -OutFile node_installer_64.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/!NODE_VER!/node-!NODE_VER!-x64.msi -OutFile node_installer_64.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
@@ -157,12 +205,11 @@ if !NODE_DETECTED!==n (
 
 	:installnode32
 	if not exist "node_installer_32.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v12.18.1/node-v12.18.1-x86.msi -OutFile node_installer_32.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/!NODE_VER!/node-!NODE_VER!-x86.msi -OutFile node_installer_32.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
 	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
-	
 	del node_installer_32.msi
 	goto nodejs_installed
 
@@ -214,42 +261,12 @@ if !FLASH_DETECTED!==n (
 	echo:
 )
 
-if !DEPENDENCIES_NEEDED!==y (
-	echo Dependencies installed. 
-	start installer_windows.bat
-	exit
-)
+echo Dependencies installed.
+exit
 
 :::::::::::::::::::::::::
-:: Post-Initialization ::
+:: Downloading Wrapper ::
 :::::::::::::::::::::::::
-
-title Wrapper: Offline Installer
-:cls
-cls
-
-echo:
-echo Wrapper: Offline Installer
-echo A project from VisualPlugin adapted by GoTest334 and the Wrapper: Offline team
-echo:
-echo Enter 1 to install Wrapper: Offline 1.2.3 (Stable Release)
-echo Enter 2 to install Wrapper: Offline 1.3.0 (Beta Release)
-echo Beta Version is unstable and is not recommended.
-echo Enter 0 to close the installer
-:wrapperidle
-echo:
-
-:::::::::::::
-:: Choices ::
-:::::::::::::
-
-set /p CHOICE=Choice:
-if "!choice!"=="0" goto exit
-if "!choice!"=="1" goto downloadmain
-if "!choice!"=="2" goto downloadbeta
-:: funni options
-if "!choice!"=="shut up" echo Nobody care and who aks && echo No cares
-echo Time to choose. && goto wrapperidle
 
 :downloadmain
 cls
@@ -285,6 +302,8 @@ if not exist "package-lock.json" (
 	echo Node.JS packages already installed.
 )
 popd
+:: skip the cert install for 1.3.0
+if %IS_BETA%==y goto finish
 
 :httpserverinstall
 cls
