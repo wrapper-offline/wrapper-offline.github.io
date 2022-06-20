@@ -122,6 +122,8 @@ if !FLASH_DETECTED!==n (
 	echo:
 )
 
+goto versionask
+
 ::::::::::::::::::::::::
 :: Dependency Install ::
 ::::::::::::::::::::::::
