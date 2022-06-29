@@ -74,7 +74,7 @@ if !DEPENDENCIES_NEEDED!==n (
 	if "!choice!"=="1" ( goto downloadmain )
 	if "!choice!"=="2" ( goto downloadbeta )
 )
-
+goto installdeps
 
 ::::::::::::::::::::::
 :: Dependency Check ::
@@ -102,6 +102,7 @@ echo Checking for Node.JS installation...
 for /f "delims=" %%i in ('node -v 2^>nul') do set noutput=%%i
 IF "!noutput!" EQU "" (
 	echo Node.JS could not be found.
+	echo:
 	set DEPENDENCIES_NEEDED=y
 ) else (
 	echo Node.JS is installed.
@@ -127,7 +128,7 @@ goto versionask
 ::::::::::::::::::::::::
 :: Dependency Install ::
 ::::::::::::::::::::::::
-
+:installdeps
 if !DEPENDENCIES_NEEDED!==y (
 	title Wrapper: Offline Installer [Installing Dependencies...]
 	echo:
@@ -279,6 +280,7 @@ if not exist "Wrapper-Offline" (
 	echo You already have it installed apparently?
 	echo If you're trying to install a different version make sure you remove the old folder.
 	pause
+	exit
 )
 goto npminstall
 
