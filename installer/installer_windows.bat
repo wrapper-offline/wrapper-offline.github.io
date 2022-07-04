@@ -33,7 +33,6 @@ set NODE_DETECTED=n
 set HTTPSERVER_DETECTED=n
 set FLASH_DETECTED=n
 set IS_BETA=n
-set NODE_VER=v12.18.1
 
 :: Confirmation
 :confirmask
@@ -168,7 +167,6 @@ if !NODE_DETECTED!==n (
 	cls
 	echo Installing Node.js...
 	echo:
-	if %IS_BETA%==y set NODE_VER=v18.4.0
 	:: Install Node.js
 	if !CPU_ARCHITECTURE!==64 (
 		if !VERBOSEWRAPPER!==y ( echo 64-bit system detected, installing 64-bit Node.js. )
@@ -198,7 +196,7 @@ if !NODE_DETECTED!==n (
 
 	:installnode64
 	if not exist "node_installer_64.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/!NODE_VER!/node-!NODE_VER!-x64.msi -OutFile node_installer_64.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x64.msi -OutFile node_installer_64.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
@@ -208,7 +206,7 @@ if !NODE_DETECTED!==n (
 
 	:installnode32
 	if not exist "node_installer_32.msi" (
-		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/!NODE_VER!/node-!NODE_VER!-x86.msi -OutFile node_installer_32.msi"
+		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x86.msi -OutFile node_installer_32.msi"
 	)
 	echo Proper Node.js installation doesn't seem possible to do automatically.
 	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
