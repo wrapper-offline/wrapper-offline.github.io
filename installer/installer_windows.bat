@@ -306,34 +306,6 @@ if not exist "package-lock.json" (
 	echo Node.JS packages already installed.
 )
 popd
-:: skip the cert install for 1.3.0
-if %IS_BETA%==y goto finish
-
-:httpserverinstall
-cls
-npm list -g | findstr "http-server" >nul
-if !errorlevel! == 0 (
-	echo HTTP-Server already installed.
-) else (
-	echo Installing HTTP-Server...
-	call npm install http-server -g
-)
-
-:certinstall
-cls
-pushd Wrapper-Offline\server
-echo Installing HTTPS certificate...
-echo:
-if not exist "the.crt" (
-	echo ...except it doesn't exist for some reason.
-	echo Wrapper: Offline requires this to run.
-	echo You should get a "the.crt" file from someone else, or redownload Wrapper: Offline.
-	echo Offline has nothing left to do since it can't launch without the.crt, so it will close.
-	pause
-	exit
-)
-call certutil -addstore -f -enterprise -user root the.crt >nul
-popd
 
 :finish
 cls
