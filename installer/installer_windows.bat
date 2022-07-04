@@ -56,8 +56,8 @@ cls
 echo Wrapper: Offline
 echo Are you sure you want to install Wrapper: Offline?
 echo:
-echo Enter 1 to install v1.2.3. (stable)
-echo Enter 2 to install v1.3.0. (beta)
+echo Enter 1 to install v1.3.0. (stable)
+echo Enter 2 to install v1.4.0. (beta)
 echo Enter 0 to cancel the installation.
 echo:
 :versionaskretry
