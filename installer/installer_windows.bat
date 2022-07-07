@@ -198,9 +198,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_64.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x64.msi -OutFile node_installer_64.msi"
 	)
-	echo Proper Node.js installation doesn't seem possible to do automatically.
-	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
-	msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
+	msiexec /i /quiet /qn "node_installer_64.msi" !INSTALL_FLAGS!
 	del node_installer_64.msi
 	goto nodejs_installed
 
@@ -208,9 +206,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_32.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x86.msi -OutFile node_installer_32.msi"
 	)
-	echo Proper Node.js installation doesn't seem possible to do automatically.
-	echo You can just keep clicking next until it finishes, and Wrapper: Offline will continue once it closes.
-	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
+	msiexec /i /quiet /qn "node_installer_32.msi" !INSTALL_FLAGS!
 	del node_installer_32.msi
 	goto nodejs_installed
 
@@ -253,7 +249,7 @@ if !FLASH_DETECTED!==n (
 	if not exist "flash_windows_chromium.msi" (
 		powershell -Command "Invoke-WebRequest http://wrapper-offline.ga/installer/flash_windows_chromium.msi -OutFile flash_windows_chromium.msi"
 	)
-	msiexec /i "flash_windows_chromium.msi" !INSTALL_FLAGS! /quiet
+	msiexec /i /quiet /qn "flash_windows_chromium.msi" !INSTALL_FLAGS!
 
 	echo Flash has been installed.
 	del flash_windows_chromium.msi	
