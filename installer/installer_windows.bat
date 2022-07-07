@@ -151,10 +151,7 @@ if !GIT_DETECTED!==n (
 	if not exist "git_installer.exe" (
 		powershell -Command "Invoke-WebRequest https://github.com/git-for-windows/git/releases/download/v2.35.1.windows.2/Git-2.35.1.2-32-bit.exe -OutFile git_installer.exe"
 	)
-	echo Proper Git installation doesn't seem possible to do automatically.
-	echo You can just keep clicking next until it finishes,
-	echo and the W:O installer will continue once it closes.
-	git_installer.exe
+	call git_installer.exe /VERYSILENT /PathOption=CmdTools
 	goto git_installed
 	
 	:git_installed
@@ -258,8 +255,9 @@ if !FLASH_DETECTED!==n (
 	echo:
 )
 
-echo Dependencies installed.
-exit
+cls
+echo Dependencies installed. Please restart the installer.
+pause & exit
 
 :::::::::::::::::::::::::
 :: Downloading Wrapper ::
