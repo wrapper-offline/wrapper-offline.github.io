@@ -134,7 +134,7 @@ if !DEPENDENCIES_NEEDED!==y (
 	echo Installing dependencies...
 	echo:
 
-	set INSTALL_FLAGS=ALLUSERS=1 /norestart
+	set INSTALL_FLAGS=ALLUSERS=1 /norestart /quiet /qn
 	set SAFE_MODE=n
 	if /i "!SAFEBOOT_OPTION!"=="MINIMAL" set SAFE_MODE=y
 	if /i "!SAFEBOOT_OPTION!"=="NETWORK" set SAFE_MODE=y
@@ -195,7 +195,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_64.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x64.msi -OutFile node_installer_64.msi"
 	)
-	msiexec /i /quiet /qn "node_installer_64.msi" !INSTALL_FLAGS!
+	msiexec /i "node_installer_64.msi" !INSTALL_FLAGS!
 	del node_installer_64.msi
 	goto nodejs_installed
 
@@ -203,7 +203,7 @@ if !NODE_DETECTED!==n (
 	if not exist "node_installer_32.msi" (
 		powershell -Command "Invoke-WebRequest https://nodejs.org/dist/v18.4.0/node-v18.4.0-x86.msi -OutFile node_installer_32.msi"
 	)
-	msiexec /i /quiet /qn "node_installer_32.msi" !INSTALL_FLAGS!
+	msiexec /i "node_installer_32.msi" !INSTALL_FLAGS!
 	del node_installer_32.msi
 	goto nodejs_installed
 
@@ -246,7 +246,7 @@ if !FLASH_DETECTED!==n (
 	if not exist "flash_windows_chromium.msi" (
 		powershell -Command "Invoke-WebRequest http://wrapper-offline.ga/installer/flash_windows_chromium.msi -OutFile flash_windows_chromium.msi"
 	)
-	msiexec /i /quiet /qn "flash_windows_chromium.msi" !INSTALL_FLAGS!
+	msiexec /i "flash_windows_chromium.msi" !INSTALL_FLAGS!
 
 	echo Flash has been installed.
 	del flash_windows_chromium.msi	
