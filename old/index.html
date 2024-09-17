@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Wrapper: Offline</title>
+		<meta property="og:type" content="website">
+		<meta property="og:title" content="Wrapper: Offline" />
+		<meta property="og:description" content="A program that replicates and breathes new life into the original GoAnimate video maker."/>
+		<meta name="description" content="A program that replicates and breathes new life into the original GoAnimate video maker."/>
+		<meta name="keywords" content="goanimate, wrapper-offline, wrapper, comedy world"/>
+		<meta name="twitter:image" content="/assets/favicon/android-chrome-512x512.png"/>
+		<script>
+			var uploadtoggle = false;
+			function showDownloads() {
+				if (!uploadtoggle) {
+					document.getElementById('downloadsdropdown').setAttribute("class", "dropdown hidden");
+					setTimeout(function() { document.getElementById('downloadsdropdown').setAttribute("class", "dropdown") }, 1);
+					uploadtoggle = true;
+				} else {
+					document.getElementById('downloadsdropdown').setAttribute("class", "dropdown hidden");
+					uploadtoggle = false;
+				}
+			}
+		</script>
+		<link rel="stylesheet" href="/assets/style.css"/>
+		<link rel="stylesheet" href="/assets/modern-normalize.css"/>
+		<link rel="apple-touch-icon" sizes="180x180" href="/assets/favicon/apple-touch-icon.png"/>
+		<link rel="icon" type="image/png" sizes="32x32" href="/assets/favicon/favicon-32x32.png"/>
+		<link rel="icon" type="image/png" sizes="16x16" href="/assets/favicon/favicon-16x16.png"/>
+		<link rel="manifest" href="/assets/favicon/site.webmanifest"/>
+	</head>
+	<body>
+		<header>
+			<a href="/">
+				<img src="/assets/logo.svg" title="Wrapper: Offline" alt="Wrapper: Offline" class="logo"/>
+			</a>
+			<div class="header-buttons">
+				<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/wiki" class="information-button">
+					FAQ
+				</a>
+				<a onclick="showDownloads();" class="download-button">
+					Download Now!
+				</a>
+				<div class="dropdown none" id="downloadsdropdown">
+					<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/wrapper-offline-win32-x64.zip">Windows</a>
+					<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/Wrapper.Offline-macos-x64.zip">macOS</a>
+					<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/wrapper-offline-linux-x64.zip">Linux</a>
+				</div>
+			</div>
+		</header>
+		<main>
+			<h1>Ever wanted to make GoAnimate videos?</h1>
+			<h2>Well nows your chance!</h2>
+			<p>Wrapper: Offline provides a fairly easy solution for using GoAnimate / Vyond's "Legacy Video Maker" after shut down.</p>
+			<br>
+			<hr>
+			<br>
+			<h3>What is GoAnimate / Vyond?</h3>
+			<p>GoAnimate in the past provided quick and easy to use animation tools that allowed anyone to animate. Since then, these tools have been discontinued and almost completely wiped from their newer and more corporate website Vyond. However, with Wrapper: Offline, you can continue to use this tools to their full capacity and for free!</p>
+			<hr class="shorthr">
+			<h3>How do I use Wrapper: Offline?</h3>
+			<p>Wrapper: Offline is fairly easy to install, click the "Download Now!" button above and select your operating system. When the archive is finished downloading, extract the files and run the executable inside.</p>
+			<hr class="shorthr">
+			<h3>I installed it, and tried to use it, but I have an issue!</h3>
+			<p>If you have an issue, you should start by checking the FAQ page (button in the top-right) for information. If you can't find a fix to your issue or an answer to your question, you can join the support Discord server (linked in the footer below). If you're reporting your issue in the Discord server, please be specific when explaining what happened, that will best help the tech support team identify and fix your problem.</p>
+			<br>
+			<hr>
+			<br>
+			<h2><a onclick="showDownloads();" class="getstarted">Get started today!</a></h2>
+		</main>
+		<footer>
+			<nav id="foot-left">
+				<a href="https://github.com/Wrapper-Offline/Wrapper-Offline">Source Code (Wrapper: Offline)</a>
+				<a href="https://github.com/Wrapper-Offline/informational-website">Source Code (This website)</a>
+				<a href="https://discord.gg/yhGAetN">Discord Server</a>
+			</nav>
+		</footer>
+	</body>
+</html>
