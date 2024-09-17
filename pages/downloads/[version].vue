@@ -1,7 +1,4 @@
 <script setup lang="ts">
-useHead({
-	title: "Downloads",
-});
 definePageMeta({
 	name: "Downloads",
 	validate: async (route) => {
@@ -36,6 +33,10 @@ if (!response.ok) {
 } else {
 	const release = await response.json();
 	ast = await useAsyncData("markdown", () => parseMarkdown(release.body)).data;
+	console.log(ast);
+	useHead({
+		title: "Downloads",
+	});
 }
 
 function goToMainPage() {
