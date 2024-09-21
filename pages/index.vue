@@ -7,7 +7,7 @@
 
 <template>
 	<div>
-		<section id="woah">
+		<section class="page_heading">
 			<h1>Ever wanted to make GoAnimate videos?</h1>
 			<p>Now's your chance! Wrapper: Offline provides a fairly easy solution for using GoAnimate/Vyond's "Legacy Video Maker" after its closure.</p>
 		</section>

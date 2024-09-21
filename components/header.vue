@@ -20,11 +20,47 @@ header {
 	& li {
 		display: inline-block;
 	}
+
+	html.dark & {
+		background: #16161d;
+		border-color: #2e2d39;
+	}
+
+	
+
+
+
+.btn {
+    background: #282637;
+    border-radius: 4px;
+    padding: 6px 10px;
+	display: inline-block;
 }
-html.dark header {
-	background: #16161d;
-	border-color: #2e2d39;
+.btn.primary {
+	background: #7e78a7;
 }
+
+.dropdown_container {
+	position: relative;
+}
+.dropdown {
+	background: #fff;
+    border-radius: 4px;
+	list-style: none;
+    position: absolute;
+    margin-top: 2px;
+	right: 0;
+	padding: 4px;
+    width: 150px;
+	/* display: none; */
+}
+.dropdown li {
+	padding: 4px 10px;
+	width: 100%;
+	line-height: 1.5;
+}
+}
+
 </style>
 
 <template>
@@ -32,27 +68,42 @@ html.dark header {
 		<NuxtLink to="/">
 			<img id="logo" src="../public/img/logo.svg" alt="Wrapper: Offline"/>
 		</NuxtLink>
-		<ul class="header-buttons">
+		<ul class="header_middle">
 			<li>
 				<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/wiki" class="btn">
 					FAQ
 				</a>
 			</li>
+			<Dropdown>
+				<template #toggle>
+					<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/wiki" class="btn">
+						Subprojects
+					</a>
+				</template>
+				<template #dropdown>
+					<ul>
+						<li>
+							<a href="https://github.com/wrapper-offline/anifire">Anifire</a>
+						</li>
+						<li>
+							<a href="https://github.com/wrapper-offline/mxmizer">MXMizer</a>
+						</li>
+					</ul>
+				</template>
+			</Dropdown>
+			<li>
+				<a href="https://discord.gg/yhGAetN" class="btn">
+					Discord
+				</a>
+			</li>
+			<li>
+				<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/wiki" class="btn">
+					GitHub
+				</a>
+			</li>
+		</ul>
+		<ul class="header_right">
 			<NuxtLink class="btn" to="/downloads/latest">Downloads</NuxtLink>
-			<!-- <li class="dropdown_container">
-				<a class="btn primary dropdown_btn">Downloads</a>
-				<ul class="dropdown">
-					<li>
-						<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/wrapper-offline-win32-x64.zip">Windows</a>
-					</li>
-					<li>
-						<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/Wrapper.Offline-macos-x64.zip">macOS</a>
-					</li>
-					<li>
-						<a href="https://github.com/Wrapper-Offline/Wrapper-Offline/releases/download/v2.0.0/wrapper-offline-linux-x64.zip">Linux</a>
-					</li>
-				</ul>
-			</li> -->
 		</ul>
 	</header>
 </template>

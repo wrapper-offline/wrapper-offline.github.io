@@ -16,6 +16,15 @@ main {
 	padding: 20px 24px;
 }
 
+.page_heading {
+	border-bottom: 1px solid #2e2d39;
+	text-align: center;
+    padding: 30px 24px;
+}
+.page_heading h1 {
+	margin: 0;
+}
+
 /**
 font importing
 **/
@@ -48,13 +57,38 @@ font importing
 </style>
 
 <script setup lang="ts">
-const route = useRoute()
+
+const route = useRoute();
 useHead({
 	titleTemplate: (title) => {
 		return title ? `${title} - Wrapper: Offline` : "Wrapper: Offline";
 	},
 	meta: [{ property: 'og:title', content: `App Name - ${route.meta.title}` }]
 });
+
+function initTheme() {
+	if (
+		window.matchMedia &&
+		window.matchMedia("(prefers-color-scheme: dark)").matches
+	) {
+		setTheme("dark");
+		return;
+	}
+	setTheme("light");
+}
+function setTheme(mode:"light"|"dark") {
+	let isDark = true;
+	if (mode == "light") {
+		isDark = false;
+	}
+	document.documentElement.classList.remove("dark", "light");
+	document.documentElement.classList.add(isDark ?
+		"dark" : "light");
+}
+
+onMounted(() => {
+	initTheme();
+})
 
 </script>
 
